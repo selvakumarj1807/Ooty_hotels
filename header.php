@@ -85,8 +85,8 @@
 							<li>
 								<hr class="dropdown-divider">
 							</li>
-							<li><a class="dropdown-item" href="#"><i class="bi bi-bookmark-check fa-fw me-2"></i>My Bookings</a></li>
-							<li><a class="dropdown-item" href="#"><i class="bi bi-heart fa-fw me-2"></i>My Wishlist</a></li>
+							<li><a class="dropdown-item" href="account-bookings.php"><i class="bi bi-bookmark-check fa-fw me-2"></i>My Bookings</a></li>
+							<li><a class="dropdown-item" href="account-wishlist.php"><i class="bi bi-heart fa-fw me-2"></i>My Wishlist</a></li>
 							<!--<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Settings</a></li>-->
 							<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Help Center</a></li>
 							<li><a class="dropdown-item bg-danger-soft-hover" href="logout.php"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>

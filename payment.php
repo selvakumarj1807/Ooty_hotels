@@ -17,6 +17,30 @@ $_COOKIE['user_name'] = $_SESSION['user_name'];
 $_SESSION['user_name'] = $username;
 $_COOKIE['user_names'] = $_SESSION['user_name'];*/
 ?>
+<?php
+$hotel_names = $_POST["hotel_names"];
+$address = $_POST["address"];
+$district = $_POST["district"];
+$state = $_POST["state"];
+$pincode = $_POST["pincode"];
+$phone = $_POST["phone"];
+$check_in_out = $_POST["check_in_out"];
+$guests_rooms = $_POST["guests_rooms"];
+$image = $_POST["image"];
+$first_name = $_POST["first_name"];
+$last_name = $_POST["last_name"];
+$guest_email = $_POST["guest_email"];
+$gust_phone = $_POST["gust_phone"];
+$guestFirstName = $_POST["guestFirstName"];
+$guestLastName = $_POST["guestLastName"];
+
+//echo $guest_email;
+//echo $address;
+//echo $district;
+//echo $state;
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -156,7 +180,24 @@ $_COOKIE['user_names'] = $_SESSION['user_name'];*/
                             </div>
 
                             <!-- Form START -->
-                            <form class="row g-3">
+                            <form class="row g-3" action="booking_details.php" role="form" method="POST" enctype="multipart/form-data">
+
+                                <input type="hidden" placeholder="Choose your values" name="hotel_names" value="<?php echo $hotel_names; ?>">
+                                <input type="hidden" placeholder="Choose your values" name="address" value="<?php echo $address; ?>">
+                                <input type="hidden" placeholder="Choose your values" name="district" value="<?php echo $district; ?>">
+                                <input type="hidden" placeholder="Choose your values" name="state" value="<?php echo $state; ?>">
+                                <input type="hidden" placeholder="Choose your values" name="pincode" value="<?php echo $pincode; ?>">
+                                <input type="hidden" placeholder="Choose your values" name="phone" value="<?php echo $phone; ?>">
+                                <input type="hidden" placeholder="Choose your values" name="check_in_out" value="<?php echo $check_in_out; ?>">
+                                <input type="hidden" placeholder="Choose your values" name="guests_rooms" value="<?php echo $guests_rooms; ?>">
+                                <input type="hidden" placeholder="Choose your values" name="image" value="<?php echo $image; ?>">
+                                <input type="hidden" placeholder="Choose your values" name="first_name" value="<?php echo $first_name; ?>">
+                                <input type="hidden" placeholder="Choose your values" name="last_name" value="<?php echo $last_name; ?>">
+                                <input type="hidden" placeholder="Choose your values" name="guest_email" value="<?php echo $guest_email; ?>">
+                                <input type="hidden" placeholder="Choose your values" name="gust_phone" value="<?php echo $gust_phone; ?>">
+                                <input type="hidden" placeholder="Choose your values" name="guestFirstName" value="<?php echo $guestFirstName; ?>">
+                                <input type="hidden" placeholder="Choose your values" name="guestLastName" value="<?php echo $guestLastName; ?>">
+
                                 <!-- Card number -->
                                 <div class="col-12">
                                     <label class="form-label"><span class="h6 fw-normal">Card Number *</span></label>

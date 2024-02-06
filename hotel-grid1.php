@@ -5,12 +5,15 @@ require('db.php');
 
 // Check if user is logged in
 if (!isset($_SESSION['email']) && isset($_COOKIE['email']) && isset($_COOKIE['user_name'])) {
-    $_SESSION['email'] = $_COOKIE['email'];
-    $_SESSION['user_name'] = $_COOKIE['user_name'];
+	$_SESSION['email'] = $_COOKIE['email'];
+	$_SESSION['user_name'] = $_COOKIE['user_name'];
 }
 
 $_COOKIE['email'] = $_SESSION['email'];
 $_COOKIE['user_name'] = $_SESSION['user_name'];
+
+$email = $_SESSION['email'];
+$user_name = $_SESSION['user_name'];
 
 /*$username = strstr($email, '@', true);
 
@@ -54,6 +57,7 @@ $hotel_district = $dateRange[0];
 //echo "Check-in: $hotel_district<br>";
 //echo "Check-out: $hotel_state";
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -125,6 +129,13 @@ $hotel_district = $dateRange[0];
 
 			}
 		})
+	</script>
+	<script>
+		function fun_login() {
+			//console.log('not login');
+			alert('You are not Login');
+			window.open('sign-in.php', '_self');
+		}
 	</script>
 
 	<!-- Favicon -->
@@ -321,6 +332,7 @@ Hotel grid START -->
 						$discountCost = $row_result['discount_cost'];
 
 						$image = $row_result['image_path'];
+						$hotel_add = $row_result['hotel_address'];
 
 						// Other details...
 
@@ -336,6 +348,7 @@ Hotel grid START -->
 								<!-- Card body START -->
 								<div class="card-body px-3 pb-0">
 									<!-- Rating and cart -->
+
 									<!-- Other details... -->
 
 									<!-- Title -->
@@ -365,9 +378,29 @@ Hotel grid START -->
 										</div>
 										<!-- Button -->
 										<div class="mt-2 mt-sm-0 z-index-2">
-											<a href="about_hotel.php?hotel_name=<?php echo $hotelName; ?>&check_in_out=<?php echo $check_in_out; ?>&guests_rooms=<?php echo $guests_rooms; ?>&hotel_address=<?php echo $hotel_address; ?>" class="btn btn-sm btn-primary-soft mb-0 w-100">View Detail<i class="bi bi-arrow-right ms-2"></i></a>
+											<?php
+
+											if ($email == '') {
+											?>
+												<a onclick="fun_login()" class="btn btn-sm btn-primary-soft mb-0 w-100">Add to Cart</a>
+											<?php
+											}
+											?>
+											<?php
+
+											if ($email != '') {
+											?>
+												<a href="save_wishlist.php?hotel_name=<?php echo $hotelName; ?>&hotel_img=<?php echo $image; ?>&hotel_add=<?php echo $hotel_add; ?>&orignal_cost=<?php echo $originalCost; ?>&discount_Cost=<?php echo $discountCost; ?>&email=<?php echo $email; ?>" class="btn btn-sm btn-primary-soft mb-0 w-100">Add to Cart</a>
+											<?php
+											}
+											?>
 										</div>
 									</div>
+								</div>
+								<div class="d-grid gap-2">
+
+									<a href="about_hotel.php?hotel_name=<?php echo $hotelName; ?>&check_in_out=<?php echo $check_in_out; ?>&guests_rooms=<?php echo $guests_rooms; ?>&hotel_address=<?php echo $hotel_address; ?>" class="btn btn-sm btn-primary-soft mb-0 w-100">View Details<i class="bi bi-arrow-right ms-2"></i></a>
+
 								</div>
 							</div>
 						</div>

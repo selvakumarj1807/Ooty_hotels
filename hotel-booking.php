@@ -5,12 +5,18 @@ require('db.php');
 
 // Check if user is logged in
 if (!isset($_SESSION['email']) && isset($_COOKIE['email']) && isset($_COOKIE['user_name'])) {
-    $_SESSION['email'] = $_COOKIE['email'];
-    $_SESSION['user_name'] = $_COOKIE['user_name'];
+	$_SESSION['email'] = $_COOKIE['email'];
+	$_SESSION['user_name'] = $_COOKIE['user_name'];
 }
 
 $_COOKIE['email'] = $_SESSION['email'];
 $_COOKIE['user_name'] = $_SESSION['user_name'];
+
+$email = $_COOKIE['email'];
+$user_name = $_COOKIE['user_name'];
+
+//echo $email;
+//echo $user_name;
 
 /*$username = strstr($email, '@', true);
 
@@ -130,7 +136,57 @@ $check_out = date('j F', strtotime($dateRange[1]));
 			}
 		})
 	</script>
+	<script>
+		// JavaScript code to add new guest input fields dynamically
+		document.addEventListener('DOMContentLoaded', function() {
+			// Counter to keep track of the number of guests
+			let guestCount = 0;
 
+			// Function to add new guest input fields
+			function addNewGuest() {
+				guestCount++;
+
+				// Create elements for first name input
+				const firstNameInput = document.createElement('input');
+				firstNameInput.setAttribute('type', 'text');
+				firstNameInput.setAttribute('class', 'form-control form-control-lg');
+				firstNameInput.setAttribute('placeholder', 'Enter your first name');
+				firstNameInput.setAttribute('name', 'guestFirstName' + guestCount);
+
+				// Create elements for last name input
+				const lastNameInput = document.createElement('input');
+				lastNameInput.setAttribute('type', 'text');
+				lastNameInput.setAttribute('class', 'form-control form-control-lg');
+				lastNameInput.setAttribute('placeholder', 'Enter your last name');
+				lastNameInput.setAttribute('name', 'guestLastName' + guestCount);
+
+				// Create elements for remove button
+				const removeButton = document.createElement('button');
+				removeButton.setAttribute('type', 'button');
+				removeButton.setAttribute('class', 'btn btn-danger btn-sm');
+				removeButton.textContent = 'Remove';
+				removeButton.addEventListener('click', function() {
+					guestDiv.remove(); // Remove the entire guest div
+					guestCount--; // Decrease guest count
+				});
+
+				// Create a new div to hold the input fields and remove button
+				const guestDiv = document.createElement('div');
+				guestDiv.setAttribute('class', 'row g-4');
+				guestDiv.appendChild(firstNameInput);
+				guestDiv.appendChild(lastNameInput);
+				guestDiv.appendChild(removeButton);
+
+				// Append the new guest div to the guest container
+				document.getElementById('guestContainer').appendChild(guestDiv);
+			}
+
+			// Event listener for the "Add New Guest" button
+			document.getElementById('addGuestBtn').addEventListener('click', function() {
+				addNewGuest();
+			});
+		});
+	</script>
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="assets/images/favicon.ico">
 
@@ -227,6 +283,10 @@ Page content START -->
 
 										$hotel_names = $row_result['hotel_name'];
 										$image = $row_result['image_path'];
+										$district = $row_result['district'];
+										$state = $row_result['hotel_state'];
+										$pincode = $row_result['pincode'];
+										$phone = $row_result['phone'];
 										//$original_cost = $row_result['original_cost'];
 										//$discount_cost = $row_result['discount_cost'];
 
@@ -243,8 +303,8 @@ Page content START -->
 													<div class="card-body pt-3 pt-sm-0 p-0">
 														<!-- Title -->
 														<h5 class="card-title"><a href="#"><?php echo $hotel_names; ?></a></h5>
-														<p class="small mb-2"><i class="bi bi-geo-alt me-2"></i><?php echo $address; ?>- 90045</p>
-
+														<p class="small mb-2"><i class="bi bi-geo-alt me-2"></i><?php echo $address; ?>,<?php echo $district; ?> - <?php echo $pincode; ?></p>
+														<p><i style="font-size:20px" class="fa">&#xf095;</i><?php echo $phone; ?></p>
 														<!-- Rating star -->
 														<ul class="list-inline mb-0">
 															<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
@@ -311,7 +371,7 @@ Page content START -->
 								<!-- Card body START -->
 								<div class="card-body p-4">
 									<!-- Form START -->
-									<form action="payment.php" class="row g-4">
+									<form action="payment.php" class="row g-4" role="form" method="POST" enctype="multipart/form-data">
 										<!-- Title -->
 										<div class="col-12">
 											<div class="bg-light rounded-2 px-4 py-3">
@@ -320,44 +380,50 @@ Page content START -->
 										</div>
 
 										<!-- Select -->
-										<div class="col-md-2">
-											<div class="form-size-lg">
-												<label class="form-label">Title</label>
-												<select class="form-select js-choice">
-													<option>Mr</option>
-													<option>Mrs</option>
-												</select>
-											</div>
-										</div>
+										<input type="hidden" placeholder="Choose your values" name="hotel_names" value="<?php echo $hotel_names; ?>">
+										<input type="hidden" placeholder="Choose your values" name="address" value="<?php echo $address; ?>">
+										<input type="hidden" placeholder="Choose your values" name="district" value="<?php echo $district; ?>">
+										<input type="hidden" placeholder="Choose your values" name="state" value="<?php echo $state; ?>">
+										<input type="hidden" placeholder="Choose your values" name="pincode" value="<?php echo $pincode; ?>">
+										<input type="hidden" placeholder="Choose your values" name="phone" value="<?php echo $phone; ?>">
+										<input type="hidden" placeholder="Choose your values" name="check_in_out" value="<?php echo $check_in_out; ?>">
+										<input type="hidden" placeholder="Choose your values" name="guests_rooms" value="<?php echo $guests_rooms; ?>">
+										<input type="hidden" placeholder="Choose your values" name="image" value="<?php echo $image; ?>">
+
 
 										<!-- Input -->
 										<div class="col-md-5">
 											<label class="form-label">First Name</label>
-											<input type="text" class="form-control form-control-lg" placeholder="Enter your name">
+											<input type="text" class="form-control form-control-lg" name="first_name" placeholder="Enter your name" value="<?php echo $_COOKIE['user_name']; ?>">
 										</div>
 
 										<!-- Input -->
 										<div class="col-md-5">
 											<label class="form-label">Last Name</label>
-											<input type="text" class="form-control form-control-lg" placeholder="Enter your name">
+											<input type="text" class="form-control form-control-lg" name="last_name" placeholder="Enter your name">
 										</div>
 
 										<!-- Button -->
 										<div class="col-12">
-											<a href="#" class="btn btn-link mb-0 p-0"><i class="fa-solid fa-plus me-2"></i>Add New Guest</a>
+											<!--<a href="#" class="btn btn-link mb-0 p-0"><i class="fa-solid fa-plus me-2"></i>Add New Guest</a>-->
+											<a id="addGuestBtn" class="btn btn-link mb-0 p-0"><i class="fa-solid fa-plus me-2"></i>Add New Guest</a>
+
+										</div>
+										<div id="guestContainer">
+											<!-- Guest input fields will be added here dynamically -->
 										</div>
 
 										<!-- Input -->
 										<div class="col-md-6">
 											<label class="form-label">Email id</label>
-											<input type="email" class="form-control form-control-lg" placeholder="Enter your email">
+											<input type="email" class="form-control form-control-lg" name="guest_email" placeholder="Enter your email" value="<?php echo $_COOKIE['email']; ?>">
 											<div id="emailHelp" class="form-text">(Booking voucher will be sent to this email ID)</div>
 										</div>
 
 										<!-- Input -->
 										<div class="col-md-6">
 											<label class="form-label">Mobile number</label>
-											<input type="text" class="form-control form-control-lg" placeholder="Enter your mobile number">
+											<input type="text" class="form-control form-control-lg" name="gust_phone" placeholder="Enter your mobile number">
 										</div>
 
 										<button class="btn btn-primary mb-0">Pay now</button>
@@ -390,7 +456,7 @@ Page content START -->
 										$discountCost = $row_result['discount_cost'];
 										$adult_cost = $row_result['adult'];
 										$child_cost = $row_result['child'];
-/*
+										/*
 										echo "$guest";
 										echo "<br>";
 										echo "$room";
@@ -399,9 +465,9 @@ Page content START -->
  
 */
 
-      $amount = ($discountCost * $room)+($adult_cost * $guest)+($child_cost * $child);
+										$amount = ($discountCost * $room) + ($adult_cost * $guest) + ($child_cost * $child);
 
-	  $totalCost = $tax_amount + $amount;
+										$totalCost = $tax_amount + $amount;
 
 					?>
 					<!-- Right side content START -->
